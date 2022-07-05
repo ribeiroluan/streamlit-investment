@@ -4,6 +4,7 @@ import pandas as pd
 from pandas_datareader import data as pdr
 from datetime import date
 import plotly.express as px
+from io import BytesIO
 
 header = st.container()
 parameters = st.container()
@@ -98,16 +99,20 @@ with dataset:
 
         st.write(final_df)
 
-        @st.cache #THIS NEEDS TO BE FIXED
-        def convert_df(df):
-            return df.to_csv().encode('utf-8')
-
-        csv = convert_df(final_df)
+        def to_excel(df):
+            output = BytesIO()
+            writer = pd.ExcelWriter(output, engine='xlsxwriter')
+            df.to_excel(writer, sheet_name='Sheet1')
+            writer.save()
+            processed_data = output.getvalue()
+            return processed_data
+        
+        excel = to_excel(final_df)
 
         st.download_button(
              label="Faça o download dos seus dados no formato csv",
-             data=csv,
-             file_name='meus_dados_financeiros.csv',
+             data=excel,
+             file_name='meus_dados_financeiros.xlsx',
              mime='text/csv',
          )
 
