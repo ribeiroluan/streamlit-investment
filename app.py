@@ -6,6 +6,12 @@ from datetime import date
 import plotly.express as px
 from io import BytesIO
 
+st.set_page_config(
+     page_title="Lit-invest",
+     page_icon=":chart_with_upwards_trend:",
+     layout="centered",
+     initial_sidebar_state="collapsed")
+
 header = st.container()
 parameters = st.container()
 dataset = st.container()
@@ -13,7 +19,7 @@ results = st.container()
 
 with header:
     st.title("_Lit_invest_ :chart_with_upwards_trend:")
-    st.write("Esta é uma ferramenta onde você pode acompanhar o seu portfólio de investimentos e compará-lo com indíces de mercado de maneira prática e intuitiva.")
+    st.write("Esta é uma ferramenta onde você pode acompanhar o seu portfólio de investimentos e compará-lo com índices de mercado de maneira prática e intuitiva.")
 
 with parameters:
     st.write("## Parâmetros")
@@ -110,7 +116,7 @@ with dataset:
         excel = to_excel(final_df)
 
         st.download_button(
-             label="Faça o download dos seus dados no formato csv",
+             label="Faça o download dos seus dados em Excel",
              data=excel,
              file_name='meus_dados_financeiros.xlsx',
              mime='text/csv',
